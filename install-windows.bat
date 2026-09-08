@@ -1,6 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 rem Copies CenteredHUD into the game's ue4ss\Mods folder.
+rem NOTE: untested on Windows - written on Linux. Should work; check output.
 rem Usage: double click, or  install-windows.bat "D:\Steam\steamapps\common\FarFarWest"
 
 set "SRC=%~dp0Mods"

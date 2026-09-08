@@ -1,5 +1,9 @@
 # Install on Windows
 
+> **Untested.** This mod is developed on Linux; the Windows steps and
+> `install-windows.bat` have not been run on an actual Windows machine. They
+> should work, but expect small path quirks. Reports welcome.
+
 ## 1. Find the game folder
 
 In Steam: right click **Far Far West** -> Manage -> Browse local files.
