@@ -22,6 +22,9 @@ currently work with Far Far West. Use the game-specific build instead:
 
 ## Install
 
+Windows users: see [INSTALL-WINDOWS.md](INSTALL-WINDOWS.md) (or run
+`install-windows.bat`). Linux:
+
 ```sh
 ./install.sh              # install normal mods (CenteredHUD)
 ./install.sh HUDDump      # install a specific mod by name
