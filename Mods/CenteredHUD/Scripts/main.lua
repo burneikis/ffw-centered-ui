@@ -227,18 +227,23 @@ local function ApplyAll()
     end
 end
 
+-- Delayed callbacks must run on the game thread. ExecuteWithDelay runs its
+-- callback on a worker thread, which touches the Lua state concurrently with
+-- the game thread and corrupts it (crash in the Lua VM). Use the delayed
+-- action API instead, falling back only on older UE4SS builds.
+local DelayInGameThread = ExecuteInGameThreadWithDelay
+    or function(ms, fn) ExecuteWithDelay(ms, function() ExecuteInGameThread(fn) end) end
+
 -- Retry a few times after a HUD widget appears; its tree may not be built yet.
 local function ApplyWithRetry(hud, attempts)
     attempts = attempts or 10
     if attempts <= 0 then return end
-    ExecuteWithDelay(300, function()
-        ExecuteInGameThread(function()
-            if not (hud and hud:IsValid()) then return end
-            local inVp = Safe(function() return hud:IsInViewport() end)
-            if not inVp or not ApplyTo(hud) then
-                ApplyWithRetry(hud, attempts - 1)
-            end
-        end)
+    DelayInGameThread(300, function()
+        if not (hud and hud:IsValid()) then return end
+        local inVp = Safe(function() return hud:IsInViewport() end)
+        if not inVp or not ApplyTo(hud) then
+            ApplyWithRetry(hud, attempts - 1)
+        end
     end)
 end
 
